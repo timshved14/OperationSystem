@@ -1,35 +1,16 @@
-# Компилятор
 CC = gcc
+CFLAGS = -Wall -Wextra -pthread
+TARGETS = factorial parallel_factorial
 
-# Флаги компиляции
-CFLAGS = -Wall -Wextra
+all: $(TARGETS)
 
-# Имя исполняемого файла
-TARGET = program
-
-# Исходные файлы (.c)
-SRC = main.c fact1.c
-
-# Объектные файлы (.o)
-OBJ = $(SRC:.c=.o)
-
-# Заголовочные файлы
-DEPS = factorial.h
-
-# Основная цель
-all: $(TARGET)
-
-# Сборка исполняемого файла
-$(TARGET): $(OBJ)
+factorial: main.c fact1.c
 	$(CC) $(CFLAGS) $^ -o $@
 
-# Правило для компиляции .c в .o
-%.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c $< -o $@
+parallel_factorial: parallel_factorial.c fact1.c
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Очистка
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f $(TARGETS)
 
-# Указание, что цели all и clean - фиктивные
 .PHONY: all clean
